@@ -4,7 +4,7 @@ __pycache__/
 *.pyd
 *.log
 venv/
-env/
+env/`a
 .venv/
 db.sqlite3
 media/
