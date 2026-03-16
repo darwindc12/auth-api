@@ -1,8 +1,10 @@
 from rest_framework import serializers
-from .models import User
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
-class RegisterSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
@@ -12,6 +14,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             'password',
             'first_name',
             'last_name',
+            'full_name',
             'role'
         ]
 
@@ -31,3 +34,12 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
 
         return user
+
+    def validate_role(self, value):
+        if value not in ['admin', 'user']:
+            raise serializers.ValidationError("Invalid role")
+
+        return value
+
+    def get_full_name(self, obj):
+        return f"{obj.first_name} {obj.last_name}"

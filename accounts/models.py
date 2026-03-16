@@ -13,7 +13,11 @@ class User(AbstractUser):
     )
 
     role = models.CharField(
-        max_length=10,
+        max_length=20,
         choices=ROLE_CHOICES,
-        default='user'
+        default='admin'
     )
+
+    @property
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}"
